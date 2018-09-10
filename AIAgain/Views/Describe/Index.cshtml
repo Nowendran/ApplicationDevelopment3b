@@ -1,0 +1,127 @@
+﻿@model AIAgain.Models.DescribePlease
+
+@{
+    ViewBag.Title = "Upload";
+}
+
+<h2>Upload An Image</h2>
+<br />
+<li>@Html.ActionLink("View Gallery", "Display", "Describe")</li>
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 16px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        #myProgress {
+            width: 100%;
+            background-color: #ddd;
+        }
+
+        #myBar {
+            width: 1%;
+            height: 30px;
+            background-color: #4CAF50;
+        }
+    </style>
+</head>
+<div class="container" style="padding-top: 24px">
+    <div class="row">
+        <div class="col-sm-8">
+            @using (Html.BeginForm("Index", "Describe", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                <input type="file" name="file" id="upload" style="display: none" onchange="$('#submit').click();" />
+                <input type="button" value="Upload a Photo" class="btn btn-primary btn-lg" onclick="$('#upload').click();" />
+                <input type="submit" id="submit" style="display: none" />
+
+            }
+        </div>
+
+
+        <div class="col-sm-4 pull-right">
+        </div>
+    </div>
+</div>
+<hr />
+
+
+@section scripts
+{
+    <script type="text/javascript" language="javascript">
+        if ("@TempData["Message"]" !== "") {
+            alert("@TempData["Message"]");
+        }
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+    &nbsp;
+@if (Model != null && !string.IsNullOrEmpty(Model.Store))
+{
+
+    <img src="@Model.Store" width="600" />
+
+    <h3>Description</h3>
+    <table class="table-bordered">
+       <tr>
+            <th>Categories</th>
+            <td>@string.Join(", ", Model.Result.Categories.Select(c => c.Name + " (" + c.Detail + ")").ToArray())</td>
+        </tr>
+
+
+        <tr>
+            <th>Dominant colors</th>
+            <td>@string.Join(", ", Model.Result.Color.DominantColors)</td>
+        </tr>
+
+        <tr>
+            <th>Description</th>
+            <td>
+                @foreach (var cap in Model.Result.Description.Captions)
+                {
+                    <text>@cap.Text  <br /></text>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>Clip art type</th>
+            <td>@Model.Result.ImageType.ClipArtType</td>
+        </tr>
+        <tr>
+            <th>Line drawing type</th>
+            <td>@Model.Result.ImageType.LineDrawingType</td>
+        </tr>
+        <tr>
+            <th>Metadata</th>
+            <td>@Model.Result.Metadata.Format (@Model.Result.Metadata.Width x @Model.Result.Metadata.Height)</td>
+        </tr>
+        <tr>
+            <th>Tags</th>
+            <td>@string.Join(", ", Model.Result.Tags.Select(t => t.Name).ToArray())</td>
+        </tr>
+    </table>
+
+  
+}

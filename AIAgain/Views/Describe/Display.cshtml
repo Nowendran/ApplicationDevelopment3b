@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Display";
+}
+
+<h2>Display</h2>
+@{
+    ViewBag.Title = "Beyond 404 Gallery";
+}
+
+@using AIAgain.Models
+
+<li>@Html.ActionLink("Upload", "Index", "Describe")</li>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 40%;
+            border-radius: 5px;
+        }
+
+            .card:hover {
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            }
+
+        img {
+            border-radius: 5px 5px 0 0;
+        }
+
+        .container {
+            padding: 2px 16px;
+        }
+    </style>
+</head>
+
+<div class="container" style="padding-top: 24px">
+    <div class="row">
+        <div class="col-sm-8">
+
+
+            @*@using (Html.BeginForm("Upload", "Blobing", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @*<input type="file" name="file" id="upload" style="display: none" onchange="$('#submit').click();" />
+                    <input type="button" value="Upload a Photo" class="btn btn-primary btn-lg" onclick="$('#upload').click();" />
+                    <input type="submit" id="submit" style="display: none" />
+                }*@
+        </div>
+        <div class="col-sm-4 pull-right">
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-sm-12">
+            @foreach (Blobs blob in ViewBag.Blobs)
+    {
+
+            <div class="card">
+                <a href="@blob.Image" rel="lightbox" title="@blob.Caption"/>
+                    <img src="@blob.Thumbnail" width="100%" title="@blob.Caption" style="padding-right: 16px; padding-bottom: 16px" />
+                    <div class="container">
+                        <h4><b>@blob.Caption</b></h4>
+                      
+                    </div>
+            </div>
+            <br/>
+     
+}
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" language="javascript">
+        if ("@TempData["Message"]" !== "") {
+            alert("@TempData["Message"]");
+        }
+    </script>
+}
+
